@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MFQRX4FM');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QTF6W3H8HG"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-QTF6W3H8HG');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menú de Hamburguesas</title>
+
+  <!-- Cargar Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Estilo personalizado para el header */
+    .header {
+      background-color: #ffcc99; /* Naranja pastel */
+      padding: 20px;
+    }
+    .header .logo {
+      max-height: 100px;
+      margin-right: 10px;
+    }
+    .header .restaurant-name {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 0;
+    }
+    .header .restaurant-description {
+      font-size: 1.2rem;
+      color: #444;
+    }
+    .header .user-email {
+      font-size: 1.2rem;
+      color: #555;
+    }
+    .social-icons img {
+      width: 24px;
+      height: 24px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MFQRX4FM"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- Header dinámico con datos de Contentful -->
+  <header class="header text-center d-flex justify-content-center align-items-center flex-column">
+    <div id="header-content" class="d-flex align-items-center"></div>
+    <p id="user-email" class="user-email mt-2"></p> <!-- Aquí se mostrará el correo -->
+    <p id="header-description" class="restaurant-description mt-2"></p>
+    <a href="https://juanlupaginaparcial.s3.us-east-2.amazonaws.com/pedidos.html">pedidos</a>
+    <a href="/tickets.html">tickets</a>
+
+  </header>
+
+  <!-- Formulario de Login Embebido -->
+  <div id="login-form" class="container mt-4">
+    <h2 class="text-center">Iniciar Sesión</h2>
+    <form id="signin-form">
+      <div class="mb-3">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input type="email" class="form-control" id="email" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <input type="password" class="form-control" id="password" required>
+      </div>
+      <button id="iniciar-sesion" type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+    </form>
+    <div class="text-center mt-2">
+      <button id="signup-button" class="btn btn-secondary">Registro</button>
+      <div class="social-icons mt-2">
+        <img id="boton-google" src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-google-icon-logo-png-transparent-svg-vector-bie-supply-14.png" alt="Google" id="google-signup">
+        <img id="boton-facebook" src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/1024px-2023_Facebook_icon.svg.png" alt="Facebook" id="facebook-signup">
+      </div>
+    </div>
+  </div>
+
+    <!-- Aquí sigue el script, sin los inputs de dirección y teléfono -->
+    <div class="container mt-4">
+      <div class="mb-3">
+        <input type="text" id="direccion" class="form-control" placeholder="Dirección" required />
+      </div>
+      <div class="mb-3">
+        <input type="tel" id="telefono" class="form-control" placeholder="Teléfono" required />
+      </div>
+    
+      <div id="menu" class="row"></div>
+    </div>
+
+  <script>
+    document.getElementById('signup-button').addEventListener('click', () => {
+      const redirectUri = window.location.origin; // Asegura que se use el dominio actual
+      window.location.href = `https://juanludom.auth.us-east-2.amazoncognito.com/oauth2/authorize?client_id=46rid498fjoisdbud8h10cbdea&response_type=code&scope=email+openid+phone+profile&redirect_uri=https%3A%2F%2Fdbtu81mecqn0m.cloudfront.net`;
+    });
+
+    document.getElementById('google-signup').addEventListener('click', () => {
+      const redirectUri = window.location.origin;
+      window.location.href = `https://juanludom.auth.us-east-2.amazoncognito.com/oauth2/authorize?client_id=46rid498fjoisdbud8h10cbdea&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2Fdbtu81mecqn0m.cloudfront.net&identity_provider=Google`;
+    });
+
+    document.getElementById('facebook-signup').addEventListener('click', () => {
+      const redirectUri = window.location.origin;
+      window.location.href = 'https://juanludom.auth.us-east-2.amazoncognito.com/oauth2/authorize?client_id=46rid498fjoisdbud8h10cbdea&response_type=code&scope=email+openid+profile&redirect_uri=https%3A%2F%2Fdbtu81mecqn0m.cloudfront.net&identity_provider=Facebook';
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/amazon-cognito-identity-js@4.5.10/dist/amazon-cognito-identity.min.js"></script>
+
+  <script>
+    // Función para obtener el parámetro de la URL ///////////////////////////////
+   // Función para obtener el parámetro de la URL
+function getParameterByName(name) {
+  const url = window.location.href;
+  const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+  const results = regex.exec(url);
+  if (!results) return null;
+  if (!results[2]) return '';
+  return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+// Verificar si existe un authorization_code en la URL
+const authorizationCode = getParameterByName('code');
+console.log('Authorization Code:', authorizationCode); // Verificar si el código de autorización está presente
+
+if (authorizationCode) {
+  const clientId = '46rid498fjoisdbud8h10cbdea';
+  const redirectUri = window.location.origin; // Cambiar a la URI correcta de redirección
+  const tokenUrl = `https://juanludom.auth.us-east-2.amazoncognito.com/oauth2/token`;
+
+  console.log('Fetching token from:', tokenUrl);
+
+  // Hacer una solicitud POST para intercambiar el authorization_code por tokens
+  fetch(tokenUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `grant_type=authorization_code&client_id=${clientId}&code=${authorizationCode}&redirect_uri=${encodeURIComponent(redirectUri)}`
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Token response:', data); // Verificar la respuesta del servidor
+
+    if (data.id_token) {
+      // Decodificar el id_token para obtener el correo del usuario
+      const idToken = data.id_token;
+      console.log('ID Token:', idToken);
+
+      const payload = JSON.parse(atob(idToken.split('.')[1]));
+      const email = payload.email;
+
+      console.log('User email:', email);
+      localStorage.setItem('usuario', email);
+
+      // Mostrar el correo en el header
+      document.getElementById('user-email').textContent = `Bienvenido, ${email}`;
+
+      // Esconder el formulario de login
+      document.getElementById('login-form').style.display = 'none';
+    } else {
+      console.error('No se recibió id_token');
+    }
+  })
+  .catch(error => {
+    console.error('Error al obtener los tokens: ', error);
+  });
+} else {
+  console.log('No authorization code found in URL.');
+}
+
+
+
+    // Configurar UserPool
+    const poolData = {
+      UserPoolId: 'us-east-2_SlzBozfNK', // ID del grupo de usuarios
+      ClientId: '46rid498fjoisdbud8h10cbdea' // ID del cliente
+    };
+
+    const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
+
+    // Función para iniciar sesión
+    function login(email, password) {
+      const authenticationData = {
+        Username: email,
+        Password: password
+      };
+      const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
+
+      const userData = {
+        Username: email,
+        Pool: userPool
+      };
+      const cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
+
+      cognitoUser.authenticateUser(authenticationDetails, {
+        onSuccess: function(result) {
+          const email = result.getIdToken().payload.email;
+
+          // Mostrar el correo debajo del título
+          document.getElementById('user-email').textContent = `Bienvenido, ${email}`;
+
+          // Esconder el formulario de login
+          document.getElementById('login-form').style.display = 'none';
+        },
+
+        onFailure: function(err) {
+          alert('Error de inicio de sesión: ' + err.message || JSON.stringify(err));
+        }
+      });
+
+      console.log('User email:', email);
+      localStorage.setItem('usuario', email);
+    }
+
+    // Manejar el formulario de login
+    document.getElementById('signin-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      login(email, password);
+    });
+
+  </script>
+
+  <div class="container my-5">
+    <h1 class="text-center mb-4">Menú de Hamburguesass</h1>
+    <div id="menu" class="row"></div>
+  </div>
+
+  <!-- Cargar la librería de Contentful -->
+  <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <div class="container">
+    <div id="header-content"></div>
+    <div id="header-description"></div>
+    <div id="menu" class="row"></div>
+    
+    <!-- Formulario de Dirección y Teléfono fuera del script -->
+  </div>
+  
+
+  
+  <script>
+    // Crear el cliente de Contentful
+    const client = contentful.createClient({
+      space: 'rxpcx6exsasz',
+      environment: 'master', 
+      accessToken: 'n9VPQTUPQHsgMxJwSx-_RAikyNhsEOGsxxryOoVI-8Y'
+    });
+  
+    // Obtener la información del headerComponent
+    client.getEntry('6ImVXaWHhI8no3R6uf2hdx')
+    .then((entry) => {
+      const fields = entry.fields;
+  
+      // Obtener el logo
+      client.getAsset(fields.logo.sys.id)
+        .then((asset) => {
+          const logoUrl = asset.fields.file.url;
+  
+          // Actualizar el header con el logo y el nombre del restaurante
+          const headerContent = 
+            `<img src="${logoUrl}" alt="Logo" class="logo">
+             <h1 class="restaurant-name">${fields.restaurante}</h1>`;
+          document.getElementById('header-content').innerHTML = headerContent;
+        })
+        .catch(console.error);
+  
+      // Actualizar la descripción (eslogan)
+      document.getElementById('header-description').textContent = fields.descripcionGeneral;
+    })
+    .catch(console.error);
+  
+    // Obtener todas las entradas del tipo de contenido 'menuBurgers'
+    client.getEntries({
+      content_type: 'menuBurgers'
+    })
+    .then((response) => {
+      const menuDiv = document.getElementById('menu');
+      let content = '';
+  
+      response.items.forEach((entry) => {
+        const fields = entry.fields;
+        const descripcion = fields.descripcion.content[0].content[0].value;
+  
+        // Obtener la imagen de cada hamburguesa
+        client.getAsset(fields.imagen.sys.id)
+          .then((asset) => {
+            const imageUrl = asset.fields.file.url;
+  
+            // Añadir la información de cada hamburguesa al contenido
+            content += 
+              `<div class="col-md-4 mb-4">
+                <div class="card h-100">
+                  <img src="${imageUrl}" class="card-img-top" alt="${fields.hamburguesa}" />
+                  <div class="card-body">
+                    <h5 class="card-title">${fields.hamburguesa}</h5>
+                    <p class="card-text">${descripcion}</p>
+                    <p class="fw-bold">Precio: $${fields.precio}</p>
+                    
+                    
+                      </div>
+                      <input type="number" id="cantidad-${entry.sys.id}" class="form-control" min="1" value="1" style="width: 100px;" />
+                    <button class="btn btn-primary mt-2" onclick="ordenar('${entry.sys.id}', '${fields.hamburguesa}', ${fields.precio})">Ordenar</button>
+                    <button class="btn btn-outline-primary mt-2" onclick="darMeGusta('${fields.hamburguesa}')">Me gustas: ${fields.hamburguesa}</button>
+                    
+
+                  </div>
+                </div>
+              </div>`;
+  
+            // Actualizar el DOM con el contenido de todas las hamburguesas
+            menuDiv.innerHTML = content;
+          })
+          .catch(console.error);
+      });
+    })
+    .catch(console.error);
+
+      async function darMeGusta(nombreBurger) {
+      const message = { nombreBurger };
+
+      try {
+          await fetch('http://127.0.0.1:5000/api/sendMeGusta', { // Cambia la URL según tu API
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(message),
+          });
+
+          alert(`¡Le diste Me gusta a ${nombreBurger}!`);
+      } catch (error) {
+          console.error('Error al enviar el Me gusta:', error);
+      }
+  }
+
+
+
+  
+    // Función para mostrar la ventana emergente al ordenar
+    function ordenar(id, orden, precio) {
+    const direccion = document.getElementById('direccion').value;
+    const telefono = document.getElementById('telefono').value;
+    const cantidad = document.getElementById(`cantidad-${id}`).value;
+    const total = cantidad * precio;
+
+    // Crear el objeto de pedido
+    const pedido = {
+        cantidad: Number(cantidad),
+        direccion: direccion,
+        orden: orden,
+        telefono: telefono,
+        total: total
+    };
+
+    // Registrar el cuerpo de la petición en la consola
+    console.log('Cuerpo de la petición:', JSON.stringify(pedido));
+
+    // Realizar el POST del pedido (ajusta la URL según tu endpoint)
+    fetch('https://xfq9zub7g0.execute-api.us-east-2.amazonaws.com/dev/pedidos/agregar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(pedido)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        alert('¡Orden realizada con éxito!');
+        console.log(data);
+    })
+    .catch((error) => {
+        console.error('Error al realizar el pedido:', error);
+        alert('Error al realizar el pedido. Intenta de nuevo.');
+    });
+}
+
+  </script>
+  
+  <div class="container mt-5">
+    <h3>Reseñas de nuestros clientes</h3>
+    <div id="reviews-container" class="mt-4">
+        <!-- Aquí se renderizarán los reviews -->
+    </div>
+    
+    <div class="mt-4">
+      <h4>Deja tu calificación:</h4>
+      <div id="rating-container">
+          <label>
+              <input type="radio" name="rating" value="1"> 1
+          </label>
+          <label>
+              <input type="radio" name="rating" value="2"> 2
+          </label>
+          <label>
+              <input type="radio" name="rating" value="3"> 3
+          </label>
+          <label>
+              <input type="radio" name="rating" value="4"> 4
+          </label>
+          <label>
+              <input type="radio" name="rating" value="5"> 5
+          </label>
+      </div>
+  
+      <button id="submit-rating" class="btn btn-primary mt-2">Enviar Calificación</button>
+  </div>
+  
+  <script>
+      document.getElementById('submit-rating').addEventListener('click', function() {
+          // Get selected rating
+          const rating = document.querySelector('input[name="rating"]:checked');
+          
+          if (rating) {
+              const calificacion = rating.value;
+              const user = localStorage.getItem('usuario');
+
+              console.log(user);  
+  
+              // Prepare the data to send
+              const data = {
+                  usuario: user?? "no logeado",  // Hardcoded user
+                  calificacion: parseInt(calificacion)  // Convert string value to an integer
+              };
+  
+              // Send the POST request post reseña
+              fetch('https://xfq9zub7g0.execute-api.us-east-2.amazonaws.com/dev/resecors/postreview', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(data)
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Error en la solicitud');
+                  }
+                  return response.json();
+              })
+              .then(data => {
+                  alert('Calificación enviada con éxito');
+                  console.log('Success:', data);
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+          } else {
+              alert('Por favor selecciona una calificación antes de enviar.');
+          }
+      });
+  </script>
+  
+    ///////////////////////////////////////
+    <style>
+        .profile-pic {
+            max-width: 3rem; /* Ancho máximo de la imagen */
+            max-height: 3rem; /* Alto máximo de la imagen */
+            border-radius: 50%; /* Para hacer la imagen redonda */
+        }
+    </style>
+
+    <script>
+      // Función para obtener reviews
+      async function getReviews() {
+          try {
+              const response = await fetch('https://xfq9zub7g0.execute-api.us-east-2.amazonaws.com/dev/resecors'); // Replace with your API Gateway URI
+              const data = await response.json();
+  
+              // Check if the response has a statusCode of 200 and process the 'body' field
+              if (data.statusCode === 200) {
+                  const reviews = data.body; // The reviews are inside the 'body' field
+                  renderReviews(reviews);
+              } else {
+                  console.error('Error en la respuesta:', data);
+              }
+          } catch (error) {
+              console.error('Error al obtener las reviews:', error);
+          }
+      }
+  
+      // Función para renderizar las reviews
+      function renderReviews(reviews) {
+          const container = document.getElementById('reviews-container');
+          container.innerHTML = ''; // Limpiar contenido previo
+  
+          reviews.forEach(review => {
+              const reviewCard = `
+                  <div class="card mb-3">
+                      <div class="card-body review-card">
+                          <img src="https://th.bing.com/th/id/R.b15541f5211192e39040dbb75cfdae14?rik=Upya7SBm%2bYjb3w&riu=http%3a%2f%2fwww.freeiconspng.com%2fuploads%2fperson-icon-5.png&ehk=vP6v8y8lw%2brW7%2fJl3ecgKvm7UrO%2fbmZ70TGxNeY40fg%3d&risl=&pid=ImgRaw&r=0" class="profile-pic" alt="Perfil">
+                          <div class="review-content">
+                              <h5 class="card-title">${review.usuario}</h5>
+                              <p class="card-text">Calificación: ${review.calificacion}</p>
+                          </div>
+                      </div>
+                  </div>
+              `;
+              container.innerHTML += reviewCard;
+          });
+      }
+  
+      // Llamar a la función para obtener reviews al cargar la página
+      getReviews();
+  </script>
+  
+</div>
+
+
+
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h3 class="text-center mb-4">Suscríbete a nuestro newsletter</h3>
+
+      <form id="newsletter" onsubmit="mostrarAlerta(); return false;">
+        <div class="mb-3">
+          <label for="email" class="form-label">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" placeholder="Tu correo" required>
+        </div>
+        <div class="d-grid gap-2 mb-3">
+          <button id="boton-suscribirse" type="submit" class="btn btn-primary">Suscribirse</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function mostrarAlerta() {
+    alert("¡Suscrito exitosamente!");
+  }
+</script>
+
+</body>
+
+<footer class="footer bg-dark text-white text-center py-4">
+  <p>Te recomendamos seguirnos en nuestras redes para que no te pierdas ninguna promoción</p>
+  <div class="social-icons d-flex justify-content-center my-3">
+    <!-- Iconos de redes sociales con enlaces -->
+    <a id="boton-redes-facebook" href="https://www.facebook.com/login" target="_blank" class="mx-2">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
+        <path fill="#039be5" d="M24 5A19 19 0 1 0 24 43A19 19 0 1 0 24 5Z"></path><path fill="#fff" d="M26.572,29.036h4.917l0.772-4.995h-5.69v-2.73c0-2.075,0.678-3.915,2.619-3.915h3.119v-4.359c-0.548-0.074-1.707-0.236-3.897-0.236c-4.573,0-7.254,2.415-7.254,7.917v3.323h-4.701v4.995h4.701v13.729C22.089,42.905,23.032,43,24,43c0.875,0,1.729-0.08,2.572-0.194V29.036z"></path>
+        </svg>
+      <i class="bi bi-facebook fs-1 text-white"></i>
+    </a>
+    <a id="boton-redes-instagram" href="https://www.instagram.com/accounts/login/" target="_blank" class="mx-2">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 64 64">
+        <linearGradient id="jm_nAfYbxsVmTlYr5N4x9a_43625_gr1" x1="32" x2="32" y1="6.667" y2="57.872" gradientUnits="userSpaceOnUse" spreadMethod="reflect"><stop offset="0" stop-color="#1a6dff"></stop><stop offset="1" stop-color="#c822ff"></stop></linearGradient><path fill="url(#jm_nAfYbxsVmTlYr5N4x9a_43625_gr1)" d="M44,57H20c-7.168,0-13-5.832-13-13V20c0-7.168,5.832-13,13-13h24c7.168,0,13,5.832,13,13v24 C57,51.168,51.168,57,44,57z M20,9C13.935,9,9,13.935,9,20v24c0,6.065,4.935,11,11,11h24c6.065,0,11-4.935,11-11V20 c0-6.065-4.935-11-11-11H20z"></path><linearGradient id="jm_nAfYbxsVmTlYr5N4x9b_43625_gr2" x1="32" x2="32" y1="18.167" y2="45.679" gradientUnits="userSpaceOnUse" spreadMethod="reflect"><stop offset="0" stop-color="#6dc7ff"></stop><stop offset="1" stop-color="#e6abff"></stop></linearGradient><path fill="url(#jm_nAfYbxsVmTlYr5N4x9b_43625_gr2)" d="M32,45c-7.168,0-13-5.832-13-13c0-7.168,5.832-13,13-13c7.168,0,13,5.832,13,13 C45,39.168,39.168,45,32,45z M32,23c-4.962,0-9,4.038-9,9c0,4.963,4.038,9,9,9c4.963,0,9-4.037,9-9C41,27.038,36.963,23,32,23z"></path><linearGradient id="jm_nAfYbxsVmTlYr5N4x9c_43625_gr3" x1="46" x2="46" y1="12.75" y2="23.049" gradientUnits="userSpaceOnUse" spreadMethod="reflect"><stop offset="0" stop-color="#6dc7ff"></stop><stop offset="1" stop-color="#e6abff"></stop></linearGradient><path fill="url(#jm_nAfYbxsVmTlYr5N4x9c_43625_gr3)" d="M46 15A3 3 0 1 0 46 21A3 3 0 1 0 46 15Z"></path>
+        </svg>
+      <i class="bi bi-instagram fs-1 text-white"></i>
+    </a>
+    <a id="boton-redes-youtube" href="https://www.youtube.com/account" target="_blank" class="mx-2">
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
+        <path fill="#FF3D00" d="M43.2,33.9c-0.4,2.1-2.1,3.7-4.2,4c-3.3,0.5-8.8,1.1-15,1.1c-6.1,0-11.6-0.6-15-1.1c-2.1-0.3-3.8-1.9-4.2-4C4.4,31.6,4,28.2,4,24c0-4.2,0.4-7.6,0.8-9.9c0.4-2.1,2.1-3.7,4.2-4C12.3,9.6,17.8,9,24,9c6.2,0,11.6,0.6,15,1.1c2.1,0.3,3.8,1.9,4.2,4c0.4,2.3,0.9,5.7,0.9,9.9C44,28.2,43.6,31.6,43.2,33.9z"></path><path fill="#FFF" d="M20 31L20 17 32 24z"></path>
+        </svg>
+      <i class="bi bi-youtube fs-1 text-white"></i>
+    </a>
+  </div>
+  <p>&copy; 2024 - Todos los derechos reservados.</p>
+  <p>Contacto: <a href="mailto:info@turestaurante.com" class="text-white">info@juanluburguers.com</a></p>
+  <a href="/pqr.html">Envia una solicitud o reclamo</a>
+</footer>
+
+</html>

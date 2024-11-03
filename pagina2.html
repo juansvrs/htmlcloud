@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Bienvenida - Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .login-container, .welcome-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        .hidden {
+            display: none;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container" id="login-container">
+        <h1>Iniciar Sesión</h1>
+        <input type="email" id="email" placeholder="Correo electrónico">
+        <input type="password" id="password" placeholder="Contraseña">
+        <button onclick="signIn()">Iniciar Sesión</button>
+        <p id="login-error" style="color:red;"></p>
+    </div>
+
+    <div class="welcome-container hidden" id="welcome-container">
+        <h1>¡Hola, <span id="user-name"></span>!</h1>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aws-amplify"></script>
+    <script>
+        // Configuración de Amplify con tus credenciales de Cognito
+        const amplifyConfig = {
+            Auth: {
+                region: 'us-east-2',
+                userPoolId: 'us-east-2_SlzBozfNK',
+                userPoolWebClientId: '46rid498fjoisdbud8h10cbdea',
+            }
+        };
+        Amplify.configure(amplifyConfig);
+
+        // Función para iniciar sesión
+        function signIn() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            Amplify.Auth.signIn(email, password)
+                .then(user => {
+                    document.getElementById('login-container').classList.add('hidden');
+                    document.getElementById('welcome-container').classList.remove('hidden');
+                    document.getElementById('user-name').textContent = user.username;
+                })
+                .catch(error => {
+                    document.getElementById('login-error').textContent = error.message;
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Queja, Solicitud o Reclamo</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <h2 class="text-center">Envia una solicitud, queja o reclamo</h2>
+    <form id="complaintForm" class="mt-4" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label for="tipo">Tipo</label>
+        <select class="form-control" id="tipo" required>
+          <option value="solicitud">Solicitud</option>
+          <option value="queja">Queja</option>
+          <option value="reclamo">Reclamoa</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="titulo">Título</label>
+        <input type="text" class="form-control" id="titulo" placeholder="Escribe el título" required>
+      </div>
+
+      <div class="form-group">
+        <label for="descripcion">Descripción</label>
+        <textarea class="form-control" id="descripcion" rows="3" placeholder="Escribe la descripción" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="fecha">Fecha</label>
+        <input type="text" class="form-control" id="fecha" value="<?= date('Y-m-d') ?>" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="correo">Correo de contacto</label>
+        <input type="email" class="form-control" id="correo" placeholder="Escribe tu correo" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
+
+  <script>
+    async function handleSubmit(event) {
+      event.preventDefault();
+
+      const data = {
+        tipo: document.getElementById('tipo').value,
+        titulo: document.getElementById('titulo').value,
+        descripcion: document.getElementById('descripcion').value,
+        fecha: new Date().toISOString().split('T')[0], // Fecha actual en formato yyyy-mm-dd
+        correo: document.getElementById('correo').value
+      };
+
+      try {
+        const response = await fetch('http://3.15.164.44:5000/mensajes', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+          alert('Solicitud enviada con éxito.');
+        } else {
+          alert('Error al enviar la solicitud.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Ocurrió un error al enviar la solicitud:'+error);
+      }
+    }
+  </script>
+</body>
+</html>
